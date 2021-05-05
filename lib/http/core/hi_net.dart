@@ -1,3 +1,6 @@
+import 'package:billbill/http/core/hi_net_adapter.dart';
+import 'package:billbill/http/core/hi_net_error.dart';
+import 'package:billbill/http/core/mock_adapter.dart';
 import 'package:billbill/http/request/base_request.dart';
 
 class HiNet {
@@ -17,25 +20,40 @@ class HiNet {
   }
 
   Future fire(BaseRequest request) async {
-    var response = await send(request);
-    var result = response['data'];
-    print(result);
-    return result;
+   HiNetResponse response;
+   var error;
+   try {
+     response = await send(request);
+   } on HiNetError catch(e) {
+     error = e;
+     response = e.data;
+     printLog(e.message);
+   } catch(e) {
+     // 其他异常
+     printLog(e);
+   }
+
+   if (response == null) {
+     printLog(error);
+   }
+
+   var result = response.data;
+   printLog(result);
+   var status = response.statusCode;
+   switch(status) {
+     case 200:
+       return result;
+       break;
+     case 401:
+       return NeedLogin();
+       break;
+     case 403:
+       return NeedAuth(result.toString(),data: result);
+   }
   }
   
-  Future<dynamic> send<T>(BaseRequest request) async {
-    printLog(request.httpMethod());
-    request.addHeader('token', 'jkwehdo2j9823ndlkwjnwodi');
-    printLog(request.header);
-    printLog(request.params);
-    printLog(request.url());
-    return Future.value({
-      "statusCode": 200,
-      "data":{
-        "code":0,
-        "message":"success"
-      }
-    });
+  Future<HiNetResponse<T>> send<T>(BaseRequest request) async {
+    return MockAdapter().send(request);
   }
   
   void printLog(msg) {
