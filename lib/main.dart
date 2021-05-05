@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:billbill/http/core/hi_net.dart';
 import 'package:billbill/http/request/test_request.dart';
 import 'package:flutter/material.dart';
@@ -55,10 +57,21 @@ class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
   void _incrementCounter() async {
-    TestRequest testRequest = TestRequest();
-    testRequest.add('page', '1').add('requestPrams', 'vvvv');
-    var result = await HiNet.getInstance().fire(testRequest);
-    print("mian-result$result");
+    // TestRequest testRequest = TestRequest();
+    // testRequest.add('page', '1').add('requestPrams', 'vvvv');
+    // var result = await HiNet.getInstance().fire(testRequest);
+    // print("mian-result$result");
+    testJson();
+  }
+
+  void testJson() {
+    String temp = '{"name": "flutter","url":"https://www.baidu.com"}';
+    //json转换成map
+    Map<String, dynamic> map = jsonDecode(temp);
+    print("name${map['name']},url${map['url']}");
+    //map转换成json
+    String json = jsonEncode(map);
+    print(json);
   }
 
   @override
