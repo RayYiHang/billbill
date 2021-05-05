@@ -56,9 +56,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _incrementCounter() async {
     TestRequest testRequest = TestRequest();
-    testRequest.add('page', '1');
+    testRequest.add('page', '1').add('requestPrams', 'vvvv');
     var result = await HiNet.getInstance().fire(testRequest);
-    print(result);
+    print("mian-result$result");
   }
 
   @override
