@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:billbill/http/core/hi_net.dart';
 import 'package:billbill/http/request/test_request.dart';
+import 'package:billbill/model/owner.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -55,10 +58,11 @@ class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
   void _incrementCounter() async {
-    TestRequest testRequest = TestRequest();
-    testRequest.add('page', '1').add('requestPrams', 'vvvv');
-    var result = await HiNet.getInstance().fire(testRequest);
-    print("mian-result$result");
+    // TestRequest testRequest = TestRequest();
+    // testRequest.add('page', '1').add('requestPrams', 'vvvv');
+    // var result = await HiNet.getInstance().fire(testRequest);
+    // print("mian-result$result");
+    test();
   }
 
   @override
@@ -111,5 +115,21 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
+  }
+
+  void test() {
+    String data = '''{ "name": "雷奕航",
+    "face":"https://jshiqhw.com",
+    "fans": 0
+    }''';
+    Map<String, dynamic> map = jsonDecode(data);
+    //转换成mc
+    Owner owner = Owner.fromJson(map);
+    print(owner.name);
+    print(owner.face);
+    print(owner.fans);
+    //转换成map
+    Map<String, dynamic> tempMap = owner.toJson();
+    print(tempMap);
   }
 }
