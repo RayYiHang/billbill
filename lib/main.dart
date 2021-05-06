@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:billbill/db/hi_cache.dart';
 import 'package:billbill/http/core/hi_net.dart';
 import 'package:billbill/http/request/test_request.dart';
 import 'package:billbill/model/owner.dart';
@@ -55,6 +56,11 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  @override
+  void initState() {
+    HiCache.preInit();
+  }
+
   int _counter = 0;
 
   void _incrementCounter() async {
@@ -62,7 +68,8 @@ class _MyHomePageState extends State<MyHomePage> {
     // testRequest.add('page', '1').add('requestPrams', 'vvvv');
     // var result = await HiNet.getInstance().fire(testRequest);
     // print("mian-result$result");
-    test();
+    // test();
+    test2();
   }
 
   @override
@@ -132,4 +139,12 @@ class _MyHomePageState extends State<MyHomePage> {
     Map<String, dynamic> tempMap = owner.toJson();
     print(tempMap);
   }
+
+  void test2() {
+    HiCache.getInstance().setBool("switch", false);
+    var result = HiCache.getInstance().get('switch');
+    print(result);
+  }
+
+
 }
