@@ -1,6 +1,7 @@
 import 'package:billbill/http/core/dio_adapter.dart';
 import 'package:billbill/http/core/hi_net_adapter.dart';
 import 'package:billbill/http/core/hi_net_error.dart';
+import 'package:billbill/http/core/http_adapter.dart';
 import 'package:billbill/http/core/mock_adapter.dart';
 import 'package:billbill/http/request/base_request.dart';
 
@@ -54,7 +55,7 @@ class HiNet {
   }
   
   Future<HiNetResponse<T>> send<T>(BaseRequest request) async {
-    return await DioAdapter().send(request);
+    return await HttpAdapter().send(request);
   }
   
   void printLog(msg) {

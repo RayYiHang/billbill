@@ -58,18 +58,19 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
+    super.initState();
     HiCache.preInit();
   }
 
   int _counter = 0;
 
   void _incrementCounter() async {
-    // TestRequest testRequest = TestRequest();
-    // testRequest.add('page', '1').add('requestPrams', 'vvvv');
-    // var result = await HiNet.getInstance().fire(testRequest);
-    // print("mian-result$result");
+    TestRequest testRequest = TestRequest();
+    testRequest.add('page', '1').add('requestPrams', 'vvvv');
+    var result = await HiNet.getInstance().fire(testRequest);
+    print("mian-result$result");
     // test();
-    test2();
+    //test2();
   }
 
   @override

@@ -44,8 +44,8 @@ abstract class BaseRequest {
   }
 
   //添加header
-  Map<String, dynamic> header = Map();
-  BaseRequest addHeader(String k, Object v) {
+  Map<String, String> header = Map();
+  BaseRequest addHeader(String k, String v) {
     header[k] = v.toString();
     return this;
   }
