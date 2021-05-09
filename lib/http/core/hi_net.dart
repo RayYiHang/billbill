@@ -55,7 +55,7 @@ class HiNet {
   }
   
   Future<HiNetResponse<T>> send<T>(BaseRequest request) async {
-    return await HttpAdapter().send(request);
+    return await DioAdapter().send(request);
   }
   
   void printLog(msg) {

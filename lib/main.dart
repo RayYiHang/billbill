@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:billbill/db/hi_cache.dart';
 import 'package:billbill/http/core/hi_net.dart';
+import 'package:billbill/http/dao/login_dao.dart';
 import 'package:billbill/http/request/test_request.dart';
 import 'package:billbill/model/owner.dart';
 import 'package:flutter/material.dart';
@@ -71,6 +72,7 @@ class _MyHomePageState extends State<MyHomePage> {
     print("mian-result$result");
     // test();
     //test2();
+    test3();
   }
 
   @override
@@ -145,6 +147,13 @@ class _MyHomePageState extends State<MyHomePage> {
     HiCache.getInstance().setBool("switch", false);
     var result = HiCache.getInstance().get('switch');
     print(result);
+  }
+
+  void test3() {
+    var regResult = LoginDao.register('aaaa', 'bbbb', '1234', '5678');
+    var logResult = LoginDao.login('aaaa', 'bbbb');
+    print(regResult);
+    print(logResult);
   }
 
 
