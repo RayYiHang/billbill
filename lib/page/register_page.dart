@@ -1,7 +1,9 @@
 import 'package:billbill/http/core/hi_net_error.dart';
 import 'package:billbill/http/dao/login_dao.dart';
+import 'package:billbill/util/toast.dart';
 import 'package:billbill/util/util_string.dart';
 import 'package:billbill/widget/app_bar.dart';
+import 'package:billbill/widget/login_button.dart';
 import 'package:billbill/widget/login_effect.dart';
 import 'package:billbill/widget/login_input.dart';
 import 'package:flutter/material.dart';
@@ -56,6 +58,7 @@ class _RegisterPageState extends State<RegisterPage> {
           LoginInput(
             '确认密码',
             '请再次输入密码',
+            obscureText: true,
             onChange: (text) {
               rePassword = text;
               checkInput();
@@ -87,7 +90,12 @@ class _RegisterPageState extends State<RegisterPage> {
           ),
           Padding(
               padding: EdgeInsets.only(top: 20,left: 20, right: 20),
-              child: _loginButton()
+              child: LoginButton(
+                '注册',
+                enable: loginEnable,
+                onPressed: checkParams,
+                onNotPressed: noLogin,
+              )
           )
         ],
       ),
@@ -110,19 +118,6 @@ class _RegisterPageState extends State<RegisterPage> {
     });
   }
 
-  _loginButton() {
-    return InkWell(
-        onTap: () {
-          if (loginEnable) {
-            checkParams();
-          } else {
-            print('loginEnable is false');
-          }
-        },
-        child: Text('登录'),
-    );
-  }
-
   void checkParams() {
     String tips;
     if (password != rePassword) {
@@ -132,6 +127,7 @@ class _RegisterPageState extends State<RegisterPage> {
     }
     if (tips != null) {
       print(tips);
+      showToast(tips);
       return;
     }
     send();
@@ -143,16 +139,23 @@ class _RegisterPageState extends State<RegisterPage> {
       print(result);
       if (result?.code == '0') {
         print('注册成功');
+        showToast('注册成功');
         if (widget.onJumpToLogin != null) {
           widget.onJumpToLogin();
         }
       } else {
         print(result.data['msg']);
+        showToast(result.data['msg']);
       }
     } on NeedAuth catch(e) {
       print(e);
+      showToast(e.message);
     } on HiNetError catch(e) {
       print(e);
+      showToast(e.message);
     }
+  }
+  void noLogin() {
+    showToast('请输入值');
   }
 }
